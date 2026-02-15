@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Kitty World 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #ffe4ef;
+            --pink-main: #ff85a2;
+            --pink-dark: #f6416c;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--pink-light);
+            font-family: 'Tajawal', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle, #fff0f5 20%, transparent 20%), radial-gradient(circle, #fff0f5 20%, transparent 20%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+        }
+
+        /* أنيميشن تساقط القلوب */
+        .particle {
+            position: fixed;
+            top: -10%;
+            z-index: 999;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* زر الموسيقى */
+        #music-control {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2000;
+            background: var(--white);
+            border: 3px solid var(--pink-main);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        #music-control:hover { transform: scale(1.1); }
+
+        header {
+            padding: 40px 20px;
+            background: var(--white);
+            border-bottom: 8px solid var(--pink-main);
+            border-radius: 0 0 60px 60px;
+            box-shadow: 0 10px 30px rgba(246, 65, 108, 0.2);
+            position: relative;
+        }
+
+        .header-kitty {
+            width: 80px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 { color: var(--pink-dark); font-size: 2.2rem; margin: 10px 0; text-shadow: 2px 2px white; }
+
+        /* الهدايا */
+        .gifts-section {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin: 60px auto;
+            max-width: 1000px;
+        }
+
+        .gift-card {
+            background: var(--white);
+            border: 4px dashed var(--pink-main);
+            border-radius: 25px;
+            padding: 25px;
+            width: 140px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-15px) rotate(5deg);
+            background: #fff0f5;
+            border-style: solid;
+        }
+
+        .gift-card img { width: 100%; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+        .gift-card b { display: block; margin-top: 15px; color: var(--pink-dark); font-size: 1.1rem; }
+
+        /* النافذة المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(246, 65, 108, 0.4);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 40px;
+            width: 85%;
+            max-width: 450px;
+            border: 8px solid var(--pink-main);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 30px; color: var(--pink-dark);
+            cursor: pointer; font-weight: bold;
+        }
+
+        .rules-box {
+            text-align: right;
+            background: #fff9fb;
+            padding: 15px;
+            border-radius: 20px;
+            border-right: 5px solid var(--pink-main);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* دعم الجوال */
+        @media (max-width: 600px) {
+            .gift-card { width: 100px; padding: 15px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-control" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span>
+    </div>
+
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Hello_kitty_character_portrait.png/220px-Hello_kitty_character_portrait.png" class="header-kitty" alt="Hello Kitty">
+        <h1>عالم 14 فبراير الوردي ✨</h1>
+        <p style="color: var(--pink-main); font-weight: bold;">أهلاً بكِ في جروب طايشين بس عايشين</p>
+    </header>
+
+    <div class="gifts-section">
+        <div class="gift-card" onclick="showGift('link')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png">
+            <b>هدية 1</b>
+        </div>
+        <div class="gift-card" onclick="showGift('emoji')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png">
+            <b>هدية 2</b>
+        </div>
+        <div class="gift-card" onclick="showGift('rules')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png">
+            <b>هدية 3</b>
+        </div>
+    </div>
+
+    <div id="giftModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal-inner"></div>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const icon = document.getElementById('music-icon');
+        
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                icon.innerText = '⏸️';
+            } else {
+                music.pause();
+                icon.innerText = '🎵';
+            }
+        }
+
+        function createParticle() {
+            const particles = ['💖', '🌸', '🎀', '✨'];
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.innerText = particles[Math.floor(Math.random() * particles.length)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            p.style.opacity = Math.random();
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 5000);
+        }
+        setInterval(createParticle, 300);
+
+        const content = {
+            link: `
+                <h2 style="color:var(--pink-dark)">رابط الجروب 🎀</h2>
+                <p style="font-size:1.1rem;">اضغطي على الزر للدخول:</p>
+                <a href="https://ig.me/j/Aba0uAcwx3YONzZ_/" target="_blank" style="display:inline-block; padding:15px 30px; background:var(--pink-main); color:white; text-decoration:none; border-radius:50px; font-weight:bold;">اضغطي هنا ✨</a>
+            `,
+            emoji: `
+                <h2 style="color:var(--pink-dark)">رسالة خاصة </h2>
+                <div style="font-size: 5rem;">🖕</div>
+                <p style="color: #888;">Oops! هيلو كيتي بتقولكم روقوا</p>
+            `,
+            rules: `
+                <h3 style="color:var(--pink-dark)">👾 قواعد جروب طايشين بس عايشين 👾</h3>
+                <div class="rules-box">
+                    📍 ممنوع السب/الكفر<br>
+                    📍 ممنوع الاتصال/كاميرا<br>
+                    📍 <b>ممنوع حد ياخد الادمن (مهمه!!)</b><br>
+                    📍 اذا صارت مشكله توجهو للأدمن<br>
+                    📍 مجبورين تتابعو الادمن 😌 (retal_x0x)<br>
+                    📍 ممنوع السبام<br>
+                    📍 ممنوع الحب<br>
+                    📍 المرتبطين يتغزلو بلخاص ❌<br>
+                    📍 ممنوع الغزل (بين الولد والبنت) = طرد فوري!!<br>
+                    📍 ممنوع تضيفو حد بدون إذن الأدمن<br>
+                    📍 ممنوع سب الثقافات و الدول<br><br>
+                    💐 مؤسس القواعد: ريتال (الأدمن) ✨
+                </div>
+            `
+        };
+
+        function showGift(type) {
+            document.getElementById('modal-inner').innerHTML = content[type];
+            document.getElementById('giftModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('giftModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
